@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>
+      <input type="text" name="" id="txtLoginId" />
+    </p>
+    <p>
+      <input type="password" name="" id="txtLoginPwd" />
+    </p>
+    <button>登录</button>
+    <script>
+      const txtLoginId = document.querySelector("#txtLoginId");
+      const txtLoginPwd = document.querySelector("#txtLoginPwd");
+
+      document.querySelector("button").onclick = async function () {
+        var loginObj = {
+          loginId: txtLoginId.value,
+          loginPwd: txtLoginPwd.value,
+        };
+        const response = await fetch(
+          "https://study.duyiedu.com/api/user/login",
+          {
+            method: "POST",
+            headers: {
+              "content-type": "application/json", // 需要指定响应头，因为浏览器默认不是json
+              a: 123,
+            },
+            body: JSON.stringify(loginObj),
+          }
+        );
+
+        console.log(response.headers); // Headers {}
+
+        const responseBody = await response.json();
+        console.log(responseBody); // {code: 0, msg: "", data: {id: "627b98efd228ee0abf458165", loginId: "haha", nickname: "哈哈"}}
+      };
+    </script>
+  </body>
+</html>

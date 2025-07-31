@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul></ul>
+    <script>
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        //当请求状态发生改变时运行的函数
+        // xhr.readyState： 一个数字，用于判断请求到了哪个阶段
+        console.log(xhr.readyState);
+        /* 
+        1
+        2
+        3
+        4
+        */
+
+        // 1: open方法已被调用
+        // 2: send方法已被调用
+        // 3: 正在接收服务器的响应消息体
+        // xhr.getResponseHeader("Content-Type") 获取响应头Content-Type
+        if (xhr.readyState === 3) {
+          console.log(xhr.getResponseHeader("content-type")); // application/json; charset=utf-8
+        }
+
+        // 4: 服务器响应的所有内容均已接收完毕
+        // xhr.responseText： 获取服务器响应的消息体文本
+        if (xhr.readyState === 4) {
+          console.log("服务器的响应结果已全部收到");
+
+          // 把纯文本转换为JSON格式
+          const obj = JSON.parse(xhr.responseText);
+          console.log(obj); // {code: 0, msg: '', data: Array(126)}
+          const ul = document.querySelector("ul");
+          for (const hero of obj.data) {
+            const li = document.createElement("li");
+            li.innerText = hero.cname;
+            ul.appendChild(li);
+          }
+        }
+      };
+      /* xhr.open('http://10.210.5.61:7000/omc', {
+            method: 'POST',
+            headers: {
+                'accept': 'application/json',
+                authorization: 'Bearer 9_YQMlZXNVloI543O61UY000',
+            }
+        }); */
+      xhr.open("GET", "https://study.duyiedu.com/api/herolist");
+      xhr.send(null);
+    </script>
+  </body>
+</html>
