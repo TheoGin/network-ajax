@@ -1,0 +1,15 @@
+# HTTP/1.1 不写它会帮你自动补全
+# 发送 get 请求
+# GET https://study.duyiedu.com/api/herolist
+
+# 发送post请求
+# 1. 请求行
+POST https://study.duyiedu.com/api/user/login HTTP/1.1
+# 2. 请求头
+Content-Type: application/json
+
+# 3. 空一行，写请求体（注：要写成JSON格式且不能用单引号）
+{
+    "loginId": "theo",
+    "loginPwd": "123"
+}
