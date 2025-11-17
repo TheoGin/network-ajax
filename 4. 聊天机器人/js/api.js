@@ -17,6 +17,7 @@ const API = (function () {
       // 记得要拼接上 Bearer，且是 authorization 字段
       headers.authorization = `Bearer ${token}`;
     }
+    console.log(headers);
 
     return fetch(BASE_URL + path, {
       headers,
@@ -72,8 +73,8 @@ const API = (function () {
       localStorage.setItem(TOKEN_KEY, token);
     }
 
-    // return await response.json();
-      return responseBody;
+    return await response.json();
+    //   return responseBody;
   }
 
   /* (async function () {
