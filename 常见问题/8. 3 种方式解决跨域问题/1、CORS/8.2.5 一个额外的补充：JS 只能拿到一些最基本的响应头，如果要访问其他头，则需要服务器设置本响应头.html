@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      fetch("https://study.duyiedu.com/api/user/login", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ loginId: "theo", loginPwd: "123" }),
+      })
+        .then((resp) => {
+          console.log(
+            `resp.headers.get('authorization')`,
+            resp.headers.get("authorization")
+          ); // resp.headers.get('authorization') eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OGRjYTdiNWY4Y2M3MGM4YTRiYTJhYiIsImlhdCI6MTc2MzU2MjMzNSwiZXhwIjoxNzY0MTY3MTM1fQ.9QwygbukX7y4FCQdH8JeuqpnKu0TS-TYxTdpnivdTcQ
+          return resp.json();
+        })
+        .then((resp) => {
+          console.log(resp);
+        });
+    </script>
+  </body>
+</html>
