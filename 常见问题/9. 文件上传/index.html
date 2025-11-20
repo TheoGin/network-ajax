@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文件上传</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      .form-container {
+        width: 400px;
+        margin: 0 auto;
+        background: #eee;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 30px;
+      }
+      .form-item {
+        margin: 1.5em 0;
+      }
+      .title {
+        height: 30px;
+        line-height: 30px;
+      }
+      input {
+        width: 100%;
+        height: 30px;
+        font-size: inherit;
+      }
+      img {
+        max-width: 200px;
+        max-height: 250px;
+        margin-top: 1em;
+        border-radius: 5px;
+      }
+      .submit {
+        width: 100%;
+        background: #0057d8;
+        color: #fff;
+        border: 1px solid #0141a0;
+        border-radius: 5px;
+        height: 40px;
+        font-size: inherit;
+        transition: 0.2s;
+      }
+      .submit:hover {
+        background: #0061f3;
+        border: 1px solid #0057d8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <div class="form-item">
+        <div class="title">账号</div>
+        <input type="text" id="username" />
+      </div>
+      <div class="form-item">
+        <div class="title">密码</div>
+        <input type="password" id="password" />
+      </div>
+      <div class="form-item">
+        <div class="title">
+          头像
+          <button id="btnupload">上传文件</button>
+          <!-- 不同浏览器样式不同，一般不会用默认样式  -->
+          <input type="file" id="fileUploader" style="display: none" />
+        </div>
+        <img src="" id="avatar" alt="" />
+      </div>
+      <div class="form-item">
+        <button class="submit">提交注册</button>
+      </div>
+    </div>
+    <script>
+      const doms = {
+        usernameInput: document.querySelector("#username"),
+        passwordInput: document.querySelector("#password"),
+        fileUploaderInput: document.querySelector("#fileUploader"),
+        btnuploadBtn: document.querySelector("#btnupload"),
+        avatarImg: document.querySelector("#avatar"),
+        submitBtn: document.querySelector(".submit"),
+      };
+      doms.btnuploadBtn.onclick = function () {
+        doms.fileUploaderInput.click();
+      };
+
+      doms.fileUploaderInput.onchange = async function (e) {
+        // TODO: 一般先会在这里对文件后缀名、大小尺寸做校验
+        // console.log(e.target.files[0]);
+
+        const formData = new FormData();
+        // 文件的键看接口【字段名：file】
+        // dom 的files属性，可以上传多个文件，此处只上传一个
+        formData.append("file", doms.fileUploaderInput.files[0]); // 添加一个键值对
+        // formData.append("file", e.target.files[0]);
+        console.log(formData);
+
+        // TODO: 用接口发送网络请求，拿到响应url后，给 img的src设置上
+        const resp = await fetch("http://localhost:8000/api/upload", {
+          method: "POST",
+          body: formData,
+        }).then((resp) => resp.json());
+
+        // 页面上显示图片
+        doms.avatarImg.src = resp.data;
+      };
+
+      // 点击提交注册，把表单数据到后端
+      doms.submitBtn.onclick = async function () {
+        // TODO: 一般会在这进行判空
+
+        const resp = await fetch("http://localhost:8000/api/user/reg", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            username: doms.usernameInput.value,
+            password: doms.passwordInput.value,
+            avatar: doms.avatarImg.src,
+          }),
+        }).then((resp) => resp.json());
+        console.log(resp);
+      };
+    </script>
+  </body>
+</html>

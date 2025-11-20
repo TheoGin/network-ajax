@@ -11,6 +11,6 @@ app.use('/api/upload', require('./upload-handler'));
 app.use('/api/user', require('./user'));
 
 app.listen(port, () => {
-  console.log(`server listen on ${port}`);
+  console.log(`server listen on http://localhost:${port}`);
 });
 
