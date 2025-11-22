@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="margin-top: 100px">
+    <a
+      data-download="thunder"
+      href="http://localhost:8000/download/Wallpaper1.jpg"
+      >壁纸1</a
+    >
+    <a
+      data-download="thunder"
+      href="http://localhost:8000/download/Wallpaper2.jpg"
+      >壁纸2</a
+    >
+    <script>
+      const aDoms = document.querySelectorAll(`[data-download="thunder"]`); // 伪数组
+      for (let aDom of aDoms) {
+        const base64 = btoa(`AA${aDom.href}ZZ`);
+        // console.log(base64);
+        // 错误写法
+        // aDom.href = `thunder://base64(AA${base64}ZZ)`;
+        aDom.href = `thunder://${base64}`;
+      }
+    </script>
+  </body>
+</html>
